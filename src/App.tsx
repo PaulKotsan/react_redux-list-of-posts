@@ -12,12 +12,12 @@ import { Loader } from './components/Loader';
 import { Post } from './types/Post';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import {
-  postsAsync,
   postsHasError,
   postsList,
   postsLoaded,
+  postsAsync,
 } from './features/posts/postsSlice';
-import { authorAsync, authorUser } from './features/author/authorSlice';
+import { authorUser, setAuthor } from './features/author/authorSlice';
 import { User } from './types/User';
 import {
   selectedPost,
@@ -35,29 +35,25 @@ export const App: React.FC = () => {
   const author = useAppSelector(authorUser);
 
   // Moved from React useState.
-  function setAuthor(user: User) {
-    // Pass user id to fetch
-    dispatch(authorAsync(user.id));
+  function handleAuthorChange(user: User) {
+    dispatch(setAuthor(user));
   }
 
   function handlePostSelect(post: Post | null) {
     dispatch(setSelectedPost(post));
   }
 
-  function loadUserPosts(userId: number) {
-    dispatch(postsAsync(userId));
-  }
+  useEffect(() => {
+    dispatch(usersAsync());
+  }, [dispatch]);
 
   useEffect(() => {
     // we clear the post when an author is changed
     // not to confuse the user
-    handlePostSelect(null);
-
-    // Get & Assign users
-    dispatch(usersAsync());
+    dispatch(setSelectedPost(null));
 
     if (author) {
-      loadUserPosts(author.id);
+      dispatch(postsAsync(author.id));
     }
   }, [author, dispatch]);
 
@@ -68,7 +64,7 @@ export const App: React.FC = () => {
           <div className="tile is-parent">
             <div className="tile is-child box is-success">
               <div className="block">
-                <UserSelector value={author} onChange={setAuthor} />
+                <UserSelector value={author} onChange={handleAuthorChange} />
               </div>
 
               <div className="block" data-cy="MainContent">

@@ -11,7 +11,7 @@ import {
   removeComment,
   commentsAsync,
 } from '../features/comments/commentsSlice';
-import CommentData from '../types/Comment';
+import { CommentData } from '../types/Comment';
 
 type Props = {
   post: Post;
@@ -24,20 +24,20 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
   const hasError = useAppSelector(commentsHasError);
   const [visible, setVisible] = useState(false);
 
-  function loadComments() {
-    setVisible(false);
-    dispatch(commentsAsync(post.id));
-  }
-
-  function handleCreateComment({ name, email, body }: CommentData) {
-    dispatch(addComment({ name, email, body, postId: post.id }));
+  function handleCreateComment(commentData: CommentData) {
+    return dispatch(addComment(commentData))
+      .unwrap()
+      .then(() => undefined);
   }
 
   function handleRemoveComment(commentId: number) {
     dispatch(removeComment(commentId));
   }
 
-  useEffect(loadComments, [post.id]);
+  useEffect(() => {
+    setVisible(false);
+    dispatch(commentsAsync(post.id));
+  }, [dispatch, post.id]);
 
   return (
     <div className="content" data-cy="PostDetails">
@@ -108,7 +108,7 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
         )}
 
         {loaded && !hasError && visible && (
-          <NewCommentForm onSubmit={handleCreateComment} />
+          <NewCommentForm postId={post.id} onSubmit={handleCreateComment} />
         )}
       </div>
     </div>

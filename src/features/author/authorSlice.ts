@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../types/User';
 import { getUser } from '../../api/users';
 import { RootState } from '../../app/store';
@@ -29,7 +29,13 @@ export const authorAsync = createAsyncThunk(
 export const authorSlice = createSlice({
   name: 'author',
   initialState,
-  reducers: {},
+  reducers: {
+    setAuthor: (state, action: PayloadAction<User | null>) => {
+      state.items = action.payload;
+      state.loaded = true;
+      state.hasError = false;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(authorAsync.pending, state => {
@@ -51,5 +57,6 @@ export const authorSlice = createSlice({
 export const authorUser = (state: RootState) => state.author.items;
 export const authorLoaded = (state: RootState) => state.author.loaded;
 export const authorHasError = (state: RootState) => state.author.hasError;
+export const { setAuthor } = authorSlice.actions;
 
 export default authorSlice.reducer;

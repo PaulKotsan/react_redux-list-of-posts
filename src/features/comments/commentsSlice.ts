@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Comment } from '../../types/Comment';
+import { Comment, CommentData } from '../../types/Comment';
 import * as commentsApi from '../../api/comments';
 import { RootState } from '../../app/store';
 
@@ -18,8 +18,8 @@ const initialState: CommentsState = {
 
 export const commentsAsync = createAsyncThunk(
   'comments/fetchComments',
-  async (commentId: number) => {
-    const value = await commentsApi.getPostComments(commentId);
+  async (postId: number) => {
+    const value = await commentsApi.getPostComments(postId);
 
     return value;
   },
@@ -27,8 +27,8 @@ export const commentsAsync = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
   'comments/addComment',
-  async (commentData: Omit<Comment, 'id'>) => {
-    return commentsApi.createComment(commentData); // This is what will be pushed as aciton payload
+  async (commentData: CommentData) => {
+    return commentsApi.createComment(commentData);
   },
 );
 
