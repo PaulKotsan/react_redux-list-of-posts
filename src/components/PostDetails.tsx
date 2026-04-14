@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Loader } from './Loader';
 import { NewCommentForm } from './NewCommentForm';
 import { Post } from '../types/Post';
-import { Comment } from '../types/Comment';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   addComment,
@@ -10,7 +9,7 @@ import {
   commentsLoaded,
   postComments,
   removeComment,
-  commentsAsync
+  commentsAsync,
 } from '../features/comments/commentsSlice';
 
 type Props = {
@@ -30,7 +29,7 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
   }
 
   function handleCreateComment({ name, email, body }: CommentData) {
-    dispatch(addComment({ name, email, body, postId: post.id}));
+    dispatch(addComment({ name, email, body, postId: post.id }));
   }
 
   function handleRemoveComment(postId: number) {
