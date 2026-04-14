@@ -6,5 +6,6 @@ export const getUsers = () => {
 };
 
 export const getUser = (id: number) => {
-  return client.get<User[]>(`/users/${id}`);
+  // Instead of User[] you should return User!
+  return client.get<User>(`/users/${id}`);
 };
