@@ -23,6 +23,7 @@ import {
   selectedPost,
   setSelectedPost,
 } from './features/selectedPost/selectedPostSlice';
+import { usersAsync } from './features/users/usersSlice';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -51,6 +52,9 @@ export const App: React.FC = () => {
     // we clear the post when an author is changed
     // not to confuse the user
     handlePostSelect(null);
+
+    // Get & Assign users
+    dispatch(usersAsync());
 
     if (author) {
       loadUserPosts(author.id);

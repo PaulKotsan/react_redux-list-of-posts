@@ -18,8 +18,8 @@ const initialState: CommentsState = {
 
 export const commentsAsync = createAsyncThunk(
   'comments/fetchComments',
-  async (postId: number) => {
-    const value = await commentsApi.getPostComments(postId);
+  async (commentId: number) => {
+    const value = await commentsApi.getPostComments(commentId);
 
     return value;
   },

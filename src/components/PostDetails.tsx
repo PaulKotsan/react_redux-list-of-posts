@@ -11,6 +11,7 @@ import {
   removeComment,
   commentsAsync,
 } from '../features/comments/commentsSlice';
+import CommentData from '../types/Comment';
 
 type Props = {
   post: Post;
@@ -32,8 +33,8 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
     dispatch(addComment({ name, email, body, postId: post.id }));
   }
 
-  function handleRemoveComment(postId: number) {
-    dispatch(removeComment(postId));
+  function handleRemoveComment(commentId: number) {
+    dispatch(removeComment(commentId));
   }
 
   useEffect(loadComments, [post.id]);

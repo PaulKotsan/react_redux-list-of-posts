@@ -28,9 +28,6 @@ export const UserSelector: React.FC<Props> = ({
       return;
     }
 
-    // Get & Assign users
-    dispatch(usersAsync());
-
     // we save a link to remove the listener later
     const handleDocumentClick = () => {
       // we close the Dropdown on any click (inside or outside)
