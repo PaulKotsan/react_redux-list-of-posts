@@ -56,7 +56,7 @@ export const UserSelector: React.FC<Props> = ({
           aria-controls="dropdown-menu"
           onClick={e => {
             e.stopPropagation();
-            setExpanded(current => !current);
+            setVisible(current => !current);
           }}
         >
           <span>{selectedUser ? selectedUser.name : 'Choose a user'}</span>
@@ -76,7 +76,7 @@ export const UserSelector: React.FC<Props> = ({
               onClick={event => {
                 event.preventDefault();
                 onChange(user);
-                setExpanded(false);
+                setVisible(false);
               }}
               className={classNames('dropdown-item', {
                 'is-active': user.id === selectedUser?.id,
